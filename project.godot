@@ -11,8 +11,12 @@ config_version=4
 [application]
 
 config/name="La Fosa"
-run/main_scene="res://assets/dog/joystick.tscn"
+run/main_scene="res://src/button/joystick.tscn"
 config/icon="res://icon.png"
+
+[global]
+
+window=false
 
 [input_devices]
 
