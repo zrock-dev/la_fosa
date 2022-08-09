@@ -17,7 +17,7 @@ func _ready():
 	$AnimationTree.active = true
 
 func _physics_process(delta):
-	# position_player.y += get_gravity() * delta
+	position_player.y += get_gravity() * delta
 	position_player.x = get_input_position_player() * move_speed
 	
 	if Input.is_action_just_pressed("move_up") and is_on_floor():
@@ -26,7 +26,12 @@ func _physics_process(delta):
 	position_player = move_and_slide(position_player, Vector2.UP)
 
 func get_gravity() -> float:
-	return jump_gravity if position_player.y < 0.0 else fall_gravity
+	if position_player.y < 0.0:
+		$AnimationTree.set("parameters/state/current", 1)
+		return jump_gravity
+	else:
+		$AnimationTree.set("parameters/state/current", 0)
+		return fall_gravity
 
 func jump():
 	position_player.y = jump_position_player
@@ -35,6 +40,7 @@ func get_input_position_player() -> float:
 	var horizontal := 0.0
 	var is_right = Input.is_action_pressed("move_rigth")
 	var is_left = Input.is_action_pressed("move_left")
+	var is_down = Input.is_action_pressed("move_down")
 	
 	if is_right or is_left:
 		$AnimationTree.set("parameters/movement/current", 1)
@@ -46,4 +52,8 @@ func get_input_position_player() -> float:
 			horizontal -= 1.0
 	else:
 		$AnimationTree.set("parameters/movement/current", 0)
+		if is_down:
+			$AnimationTree.set("parameters/iddle/current", 1)
+		else:
+			$AnimationTree.set("parameters/iddle/current", 0)
 	return horizontal
