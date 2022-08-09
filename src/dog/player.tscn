@@ -1,0 +1,182 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://src/dog/player.gd" type="Script" id=1]
+[ext_resource path="res://assets/white_dog.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 26 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "default"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 2,
+"values": [ 1, 2, 3, 4, 5, 7, 8, 9, 11, 12 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "duck"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 59, 60, 61, 62, 63 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "jump"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16, 17, 18, 19, 20, 21 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "walk"
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 29, 30, 31, 32, 33, 34, 35 ]
+}
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 60, 28 )
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "duck"
+
+[sub_resource type="AnimationNodeTransition" id=15]
+input_count = 2
+input_0/name = "is_up"
+input_0/auto_advance = false
+input_1/name = "is_down"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "jump"
+
+[sub_resource type="AnimationNodeTransition" id=9]
+input_count = 2
+input_0/name = "0_iddle"
+input_0/auto_advance = false
+input_1/name = "walk"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeTimeScale" id=10]
+
+[sub_resource type="AnimationNodeTransition" id=11]
+input_count = 2
+input_0/name = "on_ground"
+input_0/auto_advance = false
+input_1/name = "on_air"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "default"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "walk"
+
+[sub_resource type="AnimationNodeBlendTree" id=13]
+graph_offset = Vector2( -403.75, -91.03 )
+nodes/down/node = SubResource( 14 )
+nodes/down/position = Vector2( -240, 140 )
+nodes/iddle/node = SubResource( 15 )
+nodes/iddle/position = Vector2( 100, 0 )
+nodes/jump/node = SubResource( 8 )
+nodes/jump/position = Vector2( 580, 240 )
+nodes/movement/node = SubResource( 9 )
+nodes/movement/position = Vector2( 580, 60 )
+nodes/movement_time/node = SubResource( 10 )
+nodes/movement_time/position = Vector2( 160, 260 )
+nodes/output/position = Vector2( 1140, 100 )
+nodes/state/node = SubResource( 11 )
+nodes/state/position = Vector2( 880, 100 )
+nodes/up/node = SubResource( 7 )
+nodes/up/position = Vector2( -240, 0 )
+nodes/waiking/node = SubResource( 12 )
+nodes/waiking/position = Vector2( -100, 280 )
+node_connections = [ "state", 0, "movement", "state", 1, "jump", "output", 0, "state", "movement", 0, "iddle", "movement", 1, "movement_time", "movement_time", 0, "waiking", "iddle", 0, "up", "iddle", 1, "down" ]
+
+[node name="player" type="KinematicBody2D"]
+position = Vector2( 90, 511 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+jump_height = 100.0
+jump_time_to_peak = 0.5
+jump_time_to_descent = 0.4
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 30.5, -21 )
+scale = Vector2( 1.95312, 1.65625 )
+texture = ExtResource( 2 )
+hframes = 13
+vframes = 7
+frame = 26
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/default = SubResource( 2 )
+anims/duck = SubResource( 3 )
+anims/jump = SubResource( 4 )
+anims/walk = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 25, -21 )
+shape = SubResource( 6 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 13 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/iddle/current = 0
+parameters/movement/current = 0
+parameters/movement_time/scale = 0.93
+parameters/state/current = 0
