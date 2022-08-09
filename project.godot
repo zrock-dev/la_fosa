@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="La Fosa"
-run/main_scene="res://src/dog/player.tscn"
+run/main_scene="res://src/game/Game.tscn"
 config/icon="res://icon.png"
 
 [gdnative]
