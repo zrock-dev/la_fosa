@@ -96,7 +96,7 @@ func _on_CanvasLayer_move_signal(move_vector):
 		
 	if in_range(x_pos, -max_limit, max_limit) && in_range(y_pos, -max_limit, -range_area) && is_on_floor(): # up
 		can_jump = true
-	if in_range(x_pos, -range_area, range_area) && in_range(y_pos, range_area + 1, max_limit): # down
+	if in_range(x_pos, -range_area, range_area) && in_range(y_pos, range_area, max_limit): # down
 		duck = true
 		
 func in_range(number, mini, maxi) -> bool:
