@@ -24,6 +24,9 @@ func _input(event):
 func _physics_process(delta):
 	if joystick_active:
 		emit_signal(\"move_signal\", move_vector)
+		# print(move_vector)
+		
+		
 
 func calculate_move_vector(event_position):
 	return (event_position - get_texture_center()).normalized()

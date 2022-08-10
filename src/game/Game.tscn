@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/environment/ground-1.png" type="Texture" id=1]
 [ext_resource path="res://src/dog/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/button/joystick.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 32, 0, 32, 0, 0, 64, 0 )
@@ -43,3 +44,5 @@ tile_data = PoolIntArray( 65536, -536870912, 0, 131072, -536870912, 0, 196608, -
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 66, 506 )
 move_speed = 180.0
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 3 )]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/dog/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/white_dog.png" type="Texture" id=2]
+[ext_resource path="res://src/button/joystick.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -143,7 +144,7 @@ nodes/up/node = SubResource( 7 )
 nodes/up/position = Vector2( -240, 0 )
 nodes/waiking/node = SubResource( 12 )
 nodes/waiking/position = Vector2( -100, 280 )
-node_connections = [ "state", 0, "movement", "state", 1, "jump", "output", 0, "state", "movement", 0, "iddle", "movement", 1, "movement_time", "iddle", 0, "up", "iddle", 1, "down", "movement_time", 0, "waiking" ]
+node_connections = [ "state", 0, "movement", "state", 1, "jump", "output", 0, "state", "iddle", 0, "up", "iddle", 1, "down", "movement", 0, "iddle", "movement", 1, "movement_time", "movement_time", 0, "waiking" ]
 
 [node name="player" type="KinematicBody2D"]
 position = Vector2( 90, 511 )
@@ -181,3 +182,7 @@ parameters/iddle/current = 0
 parameters/movement/current = 0
 parameters/movement_time/scale = 0.93
 parameters/state/current = 0
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 3 )]
+
+[connection signal="move_signal" from="CanvasLayer" to="." method="_on_CanvasLayer_move_signal"]
