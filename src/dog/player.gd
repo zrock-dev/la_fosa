@@ -47,6 +47,7 @@ func get_gravity() -> float:
 
 func jump():
 	position_player.y = jump_position_player
+	can_jump = false
 
 func get_input_position_player() -> float:
 	var horizontal := 0.0
@@ -78,7 +79,6 @@ func reset_movement_flags():
 	is_right = false
 	is_left = false
 	duck = false
-	can_jump = false
 
 
 func _on_CanvasLayer_move_signal(move_vector):
@@ -86,18 +86,17 @@ func _on_CanvasLayer_move_signal(move_vector):
 	is_joystick_in_use = true
 	var x_pos = move_vector.x
 	var y_pos = move_vector.y
-	var range_area = 0.8
+	var range_area = 0.4
 	var max_limit = 1
 	
-	if in_range(x_pos, range_area, max_limit) && in_range(y_pos, -range_area, range_area): # rigth
+	if in_range(x_pos, range_area, max_limit) && in_range(y_pos, -max_limit, max_limit): # rigth
 		is_right = true
-	elif in_range(x_pos, -range_area, -max_limit) && in_range(y_pos, -range_area, range_area): # left
+	if in_range(x_pos, -max_limit, -range_area) && in_range(y_pos, -max_limit, max_limit): # left
 		is_left = true
 		
-	if in_range(x_pos, -range_area, range_area) && in_range(y_pos, -range_area, -max_limit): # up
-		print("jump")
+	if in_range(x_pos, -max_limit, max_limit) && in_range(y_pos, -max_limit, -range_area) && is_on_floor(): # up
 		can_jump = true
-	elif in_range(x_pos, -range_area, range_area) && in_range(y_pos, -range_area, max_limit): # down
+	if in_range(x_pos, -range_area, range_area) && in_range(y_pos, range_area + 1, max_limit): # down
 		duck = true
 		
 func in_range(number, mini, maxi) -> bool:
