@@ -37,13 +37,14 @@ func _physics_process(delta):
 	
 	position_player = move_and_slide(position_player, Vector2.UP)
 
-func get_gravity() -> float:
-	if position_player.y < 0.0:
-		$AnimationTree.set("parameters/state/current", 1)
-		return jump_gravity
-	else:
+	if is_on_floor():
 		$AnimationTree.set("parameters/state/current", 0)
-		return fall_gravity
+	else:
+		$AnimationTree.set("parameters/state/current", 1)
+
+
+func get_gravity() -> float:
+	return jump_gravity if position_player.y < 0.0 else fall_gravity
 
 func jump():
 	position_player.y = jump_position_player
@@ -71,6 +72,10 @@ func get_input_position_player() -> float:
 			$AnimationTree.set("parameters/iddle/current", 1)
 		else:
 			$AnimationTree.set("parameters/iddle/current", 0)
+	
+	# fall fast
+	if not is_on_floor() && duck:
+		fall_gravity = fall_gravity * 2 
 			
 	reset_movement_flags()
 	return horizontal
@@ -88,15 +93,22 @@ func _on_CanvasLayer_move_signal(move_vector):
 	var y_pos = move_vector.y
 	var range_area = 0.4
 	var max_limit = 1
+
+	# Joystick position
+	var rigth_cuadrant = in_range(x_pos, range_area, max_limit) && in_range(y_pos, -max_limit, max_limit)
+	var left_cuadrant = in_range(x_pos, -max_limit, -range_area) && in_range(y_pos, -max_limit, max_limit)
+	var up_cuadrant = in_range(x_pos, -max_limit, max_limit) && in_range(y_pos, -max_limit, -range_area) && is_on_floor()
+	var down_cuadrant = in_range(x_pos, -range_area, range_area) && in_range(y_pos, range_area, max_limit) && is_on_floor()
 	
-	if in_range(x_pos, range_area, max_limit) && in_range(y_pos, -max_limit, max_limit): # rigth
+	if rigth_cuadrant: # rigth
 		is_right = true
-	if in_range(x_pos, -max_limit, -range_area) && in_range(y_pos, -max_limit, max_limit): # left
+
+	if left_cuadrant: # left
 		is_left = true
 		
-	if in_range(x_pos, -max_limit, max_limit) && in_range(y_pos, -max_limit, -range_area) && is_on_floor(): # up
+	if up_cuadrant: # up
 		can_jump = true
-	if in_range(x_pos, -range_area, range_area) && in_range(y_pos, range_area, max_limit): # down
+	if down_cuadrant: # down
 		duck = true
 		
 func in_range(number, mini, maxi) -> bool:
