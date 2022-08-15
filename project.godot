@@ -21,6 +21,7 @@ singletons=[  ]
 [global]
 
 window=false
+debug=false
 
 [input]
 
