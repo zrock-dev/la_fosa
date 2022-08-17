@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export var move_speed = 200.0
+export var FRAMES_CONSTRICTION = 20
 var position_player := Vector2.ZERO
 
 # jump with gravity values
@@ -11,6 +12,8 @@ export var jump_time_to_descent : float
 onready var jump_position_player : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
 onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+
+var frames_wait = FRAMES_CONSTRICTION
 
 # horizontal movement
 var is_right : bool
@@ -85,27 +88,36 @@ func reset_movement_flags():
 	down = false
 
 func _on_CanvasLayer_move_signal(move_vector):
+
+	# var y_control = Vector2.AXIS_Y
 	
 	is_joystick_in_use = true
 	var x_pos = move_vector.x
 	var y_pos = move_vector.y
-	
-	var x_dist = 1 - get_absolute_value(x_pos)
-	var y_dist = 1 - get_absolute_value(y_pos)
-	print(y_pos," |-----| ", y_dist)
+
+	var x_dist = 1 - abs_of(x_pos)
+	var y_dist = 1 - abs_of(y_pos)
 	var max_dist_from_border = .3
 
+	print(y_pos," |-----| ", y_dist)
+	
 	# Joystick position
 	is_right = (x_pos > 0) && (x_dist < max_dist_from_border)
 	is_left = (x_pos < 0) && (x_dist < max_dist_from_border)
 
-	can_jump = (y_pos < 0) && (y_dist < .3) && position_player.y == 0.0
+	if frames_wait == FRAMES_CONSTRICTION:
+		can_jump = (y_pos < 0) && (y_dist < max_dist_from_border) && is_on_floor()
+		frames_wait = 0
+	else:
+		frames_wait += .5
 
 	down = (y_pos > 0) && (y_dist < max_dist_from_border)
+	if down:
+		frames_wait = FRAMES_CONSTRICTION
 
 func check_fall_fast():
 	if !is_on_floor() && down:
 		position_player.y = position_player.y + 100 
 
-func get_absolute_value(value):
+func abs_of(value):
 	return value if value > 0 else -value
