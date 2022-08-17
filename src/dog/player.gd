@@ -97,7 +97,7 @@ func _on_CanvasLayer_move_signal(move_vector):
 
 	var x_dist = 1 - abs_of(x_pos)
 	var y_dist = 1 - abs_of(y_pos)
-	var max_dist_from_border = .3
+	var max_dist_from_border = .8
 
 	print(y_pos," |-----| ", y_dist)
 	
