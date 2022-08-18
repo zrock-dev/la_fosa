@@ -8,7 +8,6 @@ var limit = 90
 func _input(event):
 	if (event is InputEventScreenTouch and event.is_pressed()) or event is InputEventScreenDrag:
 		move_vector = calculate_move_vector(event.position)
-		joystick_active = true
 		limit_the_inner_circle(event.position)
 	if event is InputEventScreenTouch and not event.is_pressed():
 		joystick_active = false
@@ -33,6 +32,7 @@ func limit_the_inner_circle(event_position):
 		$InnerCircle.position = texture_center + limit_vector
 	else:
 		$InnerCircle.position = event_position
+		joystick_active = true		
 
 func get_texture_center():
 	return $TouchScreenButton.position + Vector2(limit, limit)
