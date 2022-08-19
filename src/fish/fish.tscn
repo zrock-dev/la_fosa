@@ -55,7 +55,7 @@ input_1/auto_advance = false
 animation = "swim_v"
 
 [sub_resource type="AnimationNodeBlendTree" id=22]
-graph_offset = Vector2( -347.397, -130.207 )
+graph_offset = Vector2( 0, -51.6667 )
 nodes/horizontal/node = SubResource( 24 )
 nodes/horizontal/position = Vector2( -58.5971, -77.487 )
 nodes/orientation/node = SubResource( 25 )
