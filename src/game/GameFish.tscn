@@ -38,7 +38,7 @@ tile_set = SubResource( 2 )
 format = 1
 tile_data = PoolIntArray( 65536, -536870912, 0, 131072, -536870912, 0, 196608, -536870912, 0, 262144, -536870912, 0, 327680, -536870912, 0, 393216, -536870912, 0, 458752, -536870912, 0, 458758, 1073741824, 0, 524288, 0, 0, 524289, 536870912, 0, 524290, 536870912, 0, 524291, 536870912, 0, 524292, 536870912, 0, 524293, 536870912, 0, 524294, 536870912, 0, 524295, 536870912, 0, 524296, -536870912, 0, 524298, -2147483648, 0 )
 
-[node name="KinematicBody2D" parent="." instance=ExtResource( 1 )]
+[node name="Fish" parent="." instance=ExtResource( 1 )]
 position = Vector2( 85, 479 )
 
 [node name="CanvasLayer" parent="." instance=ExtResource( 2 )]

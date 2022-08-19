@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="La Fosa"
-run/main_scene="res://src/game/Game.tscn"
+run/main_scene="res://src/game/GameFish.tscn"
 config/icon="res://icon.png"
 
 [gdnative]
@@ -21,6 +21,7 @@ singletons=[  ]
 [global]
 
 window=false
+"scene root"=false
 
 [input]
 

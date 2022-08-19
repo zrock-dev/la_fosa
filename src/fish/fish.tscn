@@ -1,62 +1,13 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/button/joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/fish/fish.gd" type="Script" id=2]
 [ext_resource path="res://assets/fish/sprite of fish.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=16]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 26 ]
-}
-
-[sub_resource type="Animation" id=17]
-resource_name = "default"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 2,
-"values": [ 1, 2, 3, 4, 5, 7, 8, 9, 11, 12 ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "duck"
-length = 0.5
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 59, 60, 61, 62, 63 ]
-}
-
 [sub_resource type="Animation" id=19]
-resource_name = "jump"
-length = 2.0
+resource_name = "swim_h"
 loop = true
-step = 0.25
+step = 0.33
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -64,16 +15,16 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.75, 1, 1.25, 1.5, 1.75 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.33, 0.66 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 14, 15, 17, 18, 16, 20, 21 ]
+"values": [ 0, 1, 1 ]
 }
 
-[sub_resource type="Animation" id=20]
-resource_name = "walk"
-length = 0.7
+[sub_resource type="Animation" id=23]
+resource_name = "swim_v"
 loop = true
+step = 0.33
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -81,73 +32,41 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 29, 30, 31, 32, 33, 34, 35 ]
+"times": PoolRealArray( 0, 0.33, 0.66 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 3, 4, 5 ]
 }
 
 [sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 60, 28 )
 
-[sub_resource type="AnimationNodeAnimation" id=14]
-animation = "duck"
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "swim_h"
 
-[sub_resource type="AnimationNodeTransition" id=15]
+[sub_resource type="AnimationNodeTransition" id=25]
 input_count = 2
-input_0/name = "is_up"
+input_0/name = "swim-h"
 input_0/auto_advance = false
-input_1/name = "is_down"
+input_1/name = "swim-v"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeAnimation" id=8]
-animation = "jump"
-
-[sub_resource type="AnimationNodeTransition" id=9]
-input_count = 2
-input_0/name = "0_iddle"
-input_0/auto_advance = false
-input_1/name = "walk"
-input_1/auto_advance = false
-
-[sub_resource type="AnimationNodeTimeScale" id=10]
-
-[sub_resource type="AnimationNodeTransition" id=11]
-input_count = 2
-input_0/name = "on_ground"
-input_0/auto_advance = false
-input_1/name = "on_air"
-input_1/auto_advance = false
-
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "default"
-
-[sub_resource type="AnimationNodeAnimation" id=12]
-animation = "walk"
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "swim_v"
 
 [sub_resource type="AnimationNodeBlendTree" id=22]
-graph_offset = Vector2( -508.619, 382 )
-nodes/down/node = SubResource( 14 )
-nodes/down/position = Vector2( -240, 140 )
-nodes/iddle/node = SubResource( 15 )
-nodes/iddle/position = Vector2( 100, 0 )
-nodes/jump/node = SubResource( 8 )
-nodes/jump/position = Vector2( 580, 240 )
-nodes/movement/node = SubResource( 9 )
-nodes/movement/position = Vector2( 580, 60 )
-nodes/movement_time/node = SubResource( 10 )
-nodes/movement_time/position = Vector2( 160, 260 )
-nodes/output/position = Vector2( 1140, 100 )
-nodes/state/node = SubResource( 11 )
-nodes/state/position = Vector2( 880, 100 )
-nodes/up/node = SubResource( 7 )
-nodes/up/position = Vector2( -240, 0 )
-nodes/waiking/node = SubResource( 12 )
-nodes/waiking/position = Vector2( -100, 280 )
-node_connections = [ "state", 0, "movement", "state", 1, "jump", "output", 0, "state", "iddle", 0, "up", "iddle", 1, "down", "movement_time", 0, "waiking", "movement", 0, "iddle", "movement", 1, "movement_time" ]
+graph_offset = Vector2( -347.397, -130.207 )
+nodes/horizontal/node = SubResource( 24 )
+nodes/horizontal/position = Vector2( -58.5971, -77.487 )
+nodes/orientation/node = SubResource( 25 )
+nodes/orientation/position = Vector2( 240, -20 )
+nodes/output/position = Vector2( 660, 20 )
+nodes/vertical/node = SubResource( 26 )
+nodes/vertical/position = Vector2( -60, 80 )
+node_connections = [ "orientation", 0, "horizontal", "orientation", 1, "vertical", "output", 0, "orientation" ]
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
-position = Vector2( 88, 506 )
+position = Vector2( 379, 388 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -157,14 +76,10 @@ __meta__ = {
 texture = ExtResource( 3 )
 hframes = 3
 vframes = 2
-frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 16 )
-anims/default = SubResource( 17 )
-anims/duck = SubResource( 18 )
-anims/jump = SubResource( 19 )
-anims/walk = SubResource( 20 )
+anims/swim_h = SubResource( 19 )
+anims/swim_v = SubResource( 23 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 25, -21 )
@@ -173,10 +88,7 @@ shape = SubResource( 21 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 22 )
 anim_player = NodePath("../AnimationPlayer")
-parameters/iddle/current = 0
-parameters/movement/current = 0
-parameters/movement_time/scale = 0.93
-parameters/state/current = 0
+parameters/orientation/current = 1
 
 [node name="CanvasLayer" parent="." instance=ExtResource( 1 )]
 

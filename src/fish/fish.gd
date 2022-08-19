@@ -18,7 +18,9 @@ func _ready():
 	$AnimationTree.active = true
 	is_joystick_in_use = false
 
-func _physics_process(delta):
+func _physics_process(_delta):
+	$AnimationTree.set("parameters/orientation/current", 0)
+	$Sprite.flip_v = false
 	position_player.y = get_input_position_player_v() * move_speed
 	position_player.x = get_input_position_player() * move_speed
 	
@@ -31,12 +33,13 @@ func get_input_position_player() -> float:
 		is_left = Input.is_action_pressed("move_left")
 	
 	if is_right or is_left:
-		$AnimationTree.set("parameters/movement/current", 1)
+		$Sprite.flip_v = false
+		$AnimationTree.set("parameters/orientation/current", 0)
 		if is_right:
-			$Sprite.flip_h = false
+			$Sprite.flip_h = true
 			horizontal += 1.0
 		else:
-			$Sprite.flip_h = true
+			$Sprite.flip_h = false
 			horizontal -= 1.0
 			
 	reset_movement_flags()
@@ -49,12 +52,12 @@ func get_input_position_player_v() -> float:
 		is_down = Input.is_action_pressed("move_down")
 	
 	if is_up or is_down:
-		$AnimationTree.set("parameters/movement/current", 1)
+		$AnimationTree.set("parameters/orientation/current", 1)
 		if is_up:
-			$Sprite.flip_v = true
+			$Sprite.flip_v = false
 			vertical -= 1.0
 		else:
-			$Sprite.flip_v = false
+			$Sprite.flip_v = true
 			vertical += 1.0
 			
 	reset_movement_flags_v()
