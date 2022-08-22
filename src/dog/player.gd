@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export var move_speed = 200.0
+export var FRAMES_CONSTRICTION = 20
 var position_player := Vector2.ZERO
 
 # jump with gravity values
@@ -12,11 +13,13 @@ onready var jump_position_player : float = ((2.0 * jump_height) / jump_time_to_p
 onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
 onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
+var frames_wait = FRAMES_CONSTRICTION
+
 # horizontal movement
-var is_right
-var is_left
-var duck
-var can_jump
+var is_right : bool
+var is_left : bool
+var down : bool
+var can_jump : bool
 
 # joystick signal
 var is_joystick_in_use
@@ -32,18 +35,19 @@ func _physics_process(delta):
 	position_player.y += get_gravity() * delta
 	position_player.x = get_input_position_player() * move_speed
 	
-	if (Input.is_action_just_pressed("move_up") or can_jump) and is_on_floor():
+	if can_jump and is_on_floor():
 		jump()
 	
 	position_player = move_and_slide(position_player, Vector2.UP)
 
-func get_gravity() -> float:
-	if position_player.y < 0.0:
-		$AnimationTree.set("parameters/state/current", 1)
-		return jump_gravity
-	else:
+	if is_on_floor():
 		$AnimationTree.set("parameters/state/current", 0)
-		return fall_gravity
+	else:
+		$AnimationTree.set("parameters/state/current", 1)
+
+
+func get_gravity() -> float:
+	return jump_gravity if position_player.y < 0.0 else fall_gravity
 
 func jump():
 	position_player.y = jump_position_player
@@ -54,7 +58,8 @@ func get_input_position_player() -> float:
 	if !is_joystick_in_use:
 		is_right = Input.is_action_pressed("move_rigth")
 		is_left = Input.is_action_pressed("move_left")
-		duck = Input.is_action_pressed("move_down")
+		down = Input.is_action_pressed("move_down")
+		can_jump = Input.is_action_just_pressed("move_up")
 	
 	if is_right or is_left:
 		$AnimationTree.set("parameters/movement/current", 1)
@@ -67,37 +72,50 @@ func get_input_position_player() -> float:
 	else:
 		$AnimationTree.set("parameters/movement/current", 0)
 		is_joystick_in_use = false
-		if duck:
+
+		if down && is_on_floor():
 			$AnimationTree.set("parameters/iddle/current", 1)
 		else:
 			$AnimationTree.set("parameters/iddle/current", 0)
-			
+	
+	check_fall_fast()
 	reset_movement_flags()
 	return horizontal
 	
 func reset_movement_flags():
 	is_right = false
 	is_left = false
-	duck = false
-
+	down = false
 
 func _on_CanvasLayer_move_signal(move_vector):
+
+	# var y_control = Vector2.AXIS_Y
 	
 	is_joystick_in_use = true
 	var x_pos = move_vector.x
 	var y_pos = move_vector.y
-	var range_area = 0.4
-	var max_limit = 1
+
+	var x_dist = 1 - abs_of(x_pos)
+	var y_dist = 1 - abs_of(y_pos)
+	var max_dist_from_border = .8
 	
-	if in_range(x_pos, range_area, max_limit) && in_range(y_pos, -max_limit, max_limit): # rigth
-		is_right = true
-	if in_range(x_pos, -max_limit, -range_area) && in_range(y_pos, -max_limit, max_limit): # left
-		is_left = true
-		
-	if in_range(x_pos, -max_limit, max_limit) && in_range(y_pos, -max_limit, -range_area) && is_on_floor(): # up
-		can_jump = true
-	if in_range(x_pos, -range_area, range_area) && in_range(y_pos, range_area, max_limit): # down
-		duck = true
-		
-func in_range(number, mini, maxi) -> bool:
-	return number >= mini && number <= maxi
+	# Joystick position
+	is_right = (x_pos > 0) && (x_dist < max_dist_from_border)
+	is_left = (x_pos < 0) && (x_dist < max_dist_from_border)
+
+	if frames_wait == FRAMES_CONSTRICTION:
+		can_jump = (y_pos < 0) && (y_dist < max_dist_from_border) && is_on_floor()
+		frames_wait = 0
+	else:
+		frames_wait += .5
+
+	down = (y_pos > 0) && (y_dist < max_dist_from_border)
+	if down:
+		frames_wait = FRAMES_CONSTRICTION
+
+func check_fall_fast():
+	if !is_on_floor() && down:
+		position_player.y = position_player.y + 100 
+
+func abs_of(value):
+	return value if value > 0 else -value
