@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/dog/player.gd" type="Script" id=1]
-[ext_resource path="res://assets/white_dog.png" type="Texture" id=2]
+[ext_resource path="res://assets/dog/white_dog.png" type="Texture" id=2]
 [ext_resource path="res://src/button/joystick.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Animation" id=1]
@@ -88,7 +88,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 60, 28 )
+extents = Vector2( 34.5, 28 )
 
 [sub_resource type="AnimationNodeAnimation" id=14]
 animation = "duck"
@@ -126,7 +126,7 @@ animation = "default"
 animation = "walk"
 
 [sub_resource type="AnimationNodeBlendTree" id=13]
-graph_offset = Vector2( -508.619, 382 )
+graph_offset = Vector2( 97.5, 0 )
 nodes/down/node = SubResource( 14 )
 nodes/down/position = Vector2( -240, 140 )
 nodes/iddle/node = SubResource( 15 )
@@ -144,7 +144,7 @@ nodes/up/node = SubResource( 7 )
 nodes/up/position = Vector2( -240, 0 )
 nodes/waiking/node = SubResource( 12 )
 nodes/waiking/position = Vector2( -100, 280 )
-node_connections = [ "state", 0, "movement", "state", 1, "jump", "output", 0, "state", "iddle", 0, "up", "iddle", 1, "down", "movement", 0, "iddle", "movement", 1, "movement_time", "movement_time", 0, "waiking" ]
+node_connections = [ "state", 0, "movement", "state", 1, "jump", "output", 0, "state", "movement_time", 0, "waiking", "movement", 0, "iddle", "movement", 1, "movement_time", "iddle", 0, "up", "iddle", 1, "down" ]
 
 [node name="player" type="KinematicBody2D"]
 position = Vector2( 90, 511 )
@@ -172,7 +172,7 @@ anims/jump = SubResource( 4 )
 anims/walk = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 25, -21 )
+position = Vector2( -0.5, -21 )
 shape = SubResource( 6 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
