@@ -2,18 +2,17 @@ extends Control
 
 var text
 var color
+onready var label := $HBoxContainer/Label
+onready var texture := $HBoxContainer/TextureRect
 
 enum MessageType {Info, Warning, Danger}
 
 func _Message(var message, var type):
+	label.text = message
+	
 	if type is MessageType.Warning:
-		print("go")
-		#$Icon.texture.load_path = "res://assets/icon/alert.png"
-	$Text._set_text(message)
-
-
-func _on_Indicators_ready():
-	#_Message("WARNING", MessageType.Warning)
-	$Icon.texture.
-	$Icon.texture.load_path = "res://assets/icon/alert.png"
-	print("hola")
+		texture.set_texture("res://assets/in-game-alerts/warning.png")
+	elif type is MessageType.Danger:
+		texture.set_texture("res://assets/in-game-alerts/danger.png")
+	elif type is MessageType.Info:
+		texture.set_texture("res://assets/in-game-alerts/info.png")
