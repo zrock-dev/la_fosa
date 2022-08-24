@@ -8,7 +8,9 @@ var info_image = preload("res://assets/in-game-alerts/info.png")
 var warning_image = preload("res://assets/in-game-alerts/warning.png")
 var danger_image = preload("res://assets/in-game-alerts/danger.png")
 
-var timer = 0
+var warning_color = Color.yellow
+var danger_color = Color.red
+var info_color = Color.blue
 
 enum MessageType {Info, Warning, Danger}
 
@@ -17,25 +19,14 @@ func _Message(var message, var type):
 	
 	if type == MessageType.Warning:
 		texture.set_texture(warning_image)
-		label_color.border_color = Color.yellow
+		label_color.border_color = warning_color
+		
 	elif type == MessageType.Danger:
 		texture.set_texture(danger_image)
-		label_color.border_color = Color.red
+		label_color.border_color = danger_color
+		
 	elif type == MessageType.Info:
 		texture.set_texture(info_image)
-		label_color.border_color = Color.blue
+		label_color.border_color = info_color
 		
 	label_color.bg_color = label_color.border_color
-
-
-func _on_Timer_timeout():
-	print ("Timeout timer: ", timer)
-	if timer == 0:
-		_Message("This is a info message", MessageType.Info)
-		timer += 1
-	elif timer == 1:
-		_Message("This is a danger message", MessageType.Danger)
-		timer += 1
-	elif timer == 2:
-		_Message("This is a warning message", MessageType.Warning)
-		timer = 0
