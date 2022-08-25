@@ -1,0 +1,95 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://src/button/joystick.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/fish/fish.gd" type="Script" id=2]
+[ext_resource path="res://assets/fish/sprite of fish.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=19]
+resource_name = "swim_h"
+loop = true
+step = 0.33
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.33, 0.66 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 1 ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "swim_v"
+loop = true
+step = 0.33
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.33, 0.66 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 3, 4, 5 ]
+}
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 60, 28 )
+
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "swim_h"
+
+[sub_resource type="AnimationNodeTransition" id=25]
+input_count = 2
+input_0/name = "swim-h"
+input_0/auto_advance = false
+input_1/name = "swim-v"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "swim_v"
+
+[sub_resource type="AnimationNodeBlendTree" id=22]
+graph_offset = Vector2( 0, -51.6667 )
+nodes/horizontal/node = SubResource( 24 )
+nodes/horizontal/position = Vector2( -58.5971, -77.487 )
+nodes/orientation/node = SubResource( 25 )
+nodes/orientation/position = Vector2( 240, -20 )
+nodes/output/position = Vector2( 660, 20 )
+nodes/vertical/node = SubResource( 26 )
+nodes/vertical/position = Vector2( -60, 80 )
+node_connections = [ "orientation", 0, "horizontal", "orientation", 1, "vertical", "output", 0, "orientation" ]
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+position = Vector2( 379, 388 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+hframes = 3
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/swim_h = SubResource( 19 )
+anims/swim_v = SubResource( 23 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 25, -21 )
+shape = SubResource( 21 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 22 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/orientation/current = 1
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 1 )]
+
+[connection signal="move_signal" from="CanvasLayer" to="." method="_on_CanvasLayer_move_signal"]
