@@ -3,6 +3,8 @@ extends KinematicBody2D
 export var move_speed = 200.0
 export var FRAMES_CONSTRICTION = 20
 var position_player := Vector2.ZERO
+
+# life indicator
 var life_indicator
 var hp_max = 100
 var actual_hp = hp_max
@@ -54,7 +56,7 @@ func _physics_process(delta):
 		$AnimationTree.set("parameters/state/current", 0)
 	else:
 		$AnimationTree.set("parameters/state/current", 1)
-	actual_hp -= delta # Reducir daño
+	actual_hp -= 2 * delta # change for the current life
 	update_life()
 
 func get_gravity() -> float:
