@@ -5,7 +5,7 @@ export var FRAMES_CONSTRICTION = 20
 var position_player := Vector2.ZERO
 
 # life indicator
-var life_indicator
+var health_bar
 var hp_max = 100
 var actual_hp = hp_max
 
@@ -35,10 +35,11 @@ func _ready():
 	$AnimationTree.active = true
 	is_joystick_in_use = false
 	can_jump = false
-	life_indicator = get_tree().get_nodes_in_group("Hp")[0]
+	health_bar = get_tree().get_nodes_in_group("Hp")[0]
 
 func update_life():
-	life_indicator.value = actual_hp * life_indicator.max_value / hp_max;
+	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
+	health_bar.value = actual_hp * health_bar.max_value / hp_max;
 
 func _set_hp_max(new_hp):
 	hp_max = new_hp
