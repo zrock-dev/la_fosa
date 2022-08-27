@@ -1,26 +1,20 @@
-extends RigidBody2D
+extends StaticBody2D
 
 onready var original_pos = position
 var up = true;
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$Sprite.frame = randi()%4
+	position = Vector2(rand_range(10, 990), rand_range(10, 590))
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 var frames_count = 0;
 func _process(_delta):
-	if frames_count < 60:
+	if frames_count < 120:
 		if up:
-			position.y += 1
+			position.y += .5
 		else:
-			position.y -= 1
+			position.y -= .5
 		frames_count += 1
 	else: 
 		up = !up
-		frames_count = -30
-		#position = original_pos
-		linear_velocity. y = 0
-#	pass
+		frames_count = 0

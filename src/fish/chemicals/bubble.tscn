@@ -6,11 +6,8 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0
 
-[node name="StaticBody2D" type="RigidBody2D"]
-position = Vector2( 553, 337 )
-mode = 3
-mass = 0.680612
-gravity_scale = -0.46
+[node name="StaticBody2D" type="StaticBody2D"]
+scale = Vector2( 4.72948, 4.41916 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
