@@ -65,7 +65,7 @@ nodes/vertical/node = SubResource( 26 )
 nodes/vertical/position = Vector2( -60, 80 )
 node_connections = [ "orientation", 0, "horizontal", "orientation", 1, "vertical", "output", 0, "orientation" ]
 
-[node name="KinematicBody2D" type="KinematicBody2D"]
+[node name="KinematicBody2D" type="KinematicBody2D" groups=["Body"]]
 position = Vector2( 379, 388 )
 script = ExtResource( 2 )
 __meta__ = {

@@ -20,6 +20,8 @@ var is_right : bool
 var is_left : bool
 var down : bool
 var can_jump : bool
+var healthNow = 50
+var healthTotal = 100
 
 # joystick signal
 var is_joystick_in_use
@@ -119,3 +121,7 @@ func check_fall_fast():
 
 func abs_of(value):
 	return value if value > 0 else -value
+
+func add_health(health):
+	healthNow = clamp(healthNow + health, 0, healthTotal)
+	print("Plus Health: " + str(healthNow))
