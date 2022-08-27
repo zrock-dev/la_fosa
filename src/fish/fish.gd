@@ -11,7 +11,8 @@ var is_down
 
 # joystick signal
 var is_joystick_in_use
-
+var healthNow = 50
+var healthTotal = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -90,3 +91,7 @@ func _on_CanvasLayer_move_signal(move_vector):
 		
 func in_range(number, mini, maxi) -> bool:
 	return number >= mini && number <= maxi
+
+func add_health(health):
+	healthNow = clamp(healthNow + health, 0, healthTotal)
+	print("Plus Health: " + str(healthNow))
