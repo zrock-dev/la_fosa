@@ -52,3 +52,12 @@ position = Vector2( 642, 199 )
 
 [node name="Pickup3" parent="." instance=ExtResource( 4 )]
 position = Vector2( 576, 393 )
+
+[node name="Pickup4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 378, 117 )
+
+[node name="Pickup5" parent="." instance=ExtResource( 4 )]
+position = Vector2( 822, 347 )
+
+[node name="Pickup6" parent="." instance=ExtResource( 4 )]
+position = Vector2( 834, 147 )
