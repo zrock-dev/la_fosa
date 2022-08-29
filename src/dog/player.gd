@@ -57,7 +57,7 @@ func _physics_process(delta):
 		$AnimationTree.set("parameters/state/current", 0)
 	else:
 		$AnimationTree.set("parameters/state/current", 1)
-	actual_hp -= 2 * delta # change for the current life
+	# change for the current life
 	update_life()
 
 func get_gravity() -> float:
