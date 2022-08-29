@@ -37,13 +37,6 @@ func _ready():
 	can_jump = false
 	health_bar = get_tree().get_nodes_in_group("Hp")[0]
 
-func update_life():
-	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
-	health_bar.value = actual_hp * health_bar.max_value / hp_max;
-
-func _set_hp_max(new_hp):
-	hp_max = new_hp
-
 func _physics_process(delta):
 	position_player.y += get_gravity() * delta
 	position_player.x = get_input_position_player() * move_speed
@@ -57,8 +50,17 @@ func _physics_process(delta):
 		$AnimationTree.set("parameters/state/current", 0)
 	else:
 		$AnimationTree.set("parameters/state/current", 1)
-	# change for the current life
+
+func _set_hp_max(new_hp):
+	hp_max = new_hp
+
+func set_hp(new_hp):
+	actual_hp = new_hp;
 	update_life()
+
+func update_life():
+	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
+	health_bar.value = actual_hp * health_bar.max_value / hp_max;
 
 func get_gravity() -> float:
 	return jump_gravity if position_player.y < 0.0 else fall_gravity
