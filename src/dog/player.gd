@@ -50,12 +50,17 @@ func _physics_process(delta):
 		$AnimationTree.set("parameters/state/current", 0)
 	else:
 		$AnimationTree.set("parameters/state/current", 1)
+	update_life()
 
 func _set_hp_max(new_hp):
 	hp_max = new_hp
 
-func set_hp(new_hp):
-	actual_hp = new_hp;
+func increase_life(health):
+	actual_hp += health
+	update_life()
+
+func decrease_life(damage):
+	actual_hp -= damage
 	update_life()
 
 func update_life():

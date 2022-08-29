@@ -30,13 +30,17 @@ func _physics_process(_delta):
 	position_player.x = get_input_position_player() * move_speed
 	
 	position_player = move_and_slide(position_player, Vector2.UP)
-	set_hp(66)
+	update_life()
 
 func _set_hp_max(new_hp):
 	hp_max = new_hp
 
-func set_hp(new_hp):
-	actual_hp = new_hp
+func increase_life(health):
+	actual_hp += health
+	update_life()
+
+func decrease_life(damage):
+	actual_hp -= damage
 	update_life()
 
 func update_life():
