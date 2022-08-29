@@ -67,6 +67,7 @@ node_connections = [ "orientation", 0, "horizontal", "orientation", 1, "vertical
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
 position = Vector2( 379, 388 )
+z_index = 9
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
