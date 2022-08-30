@@ -1,12 +1,19 @@
 extends Area2D
 
 onready var original_pos = position
-var up = true
+onready var target
+
+var DEFAULT_HIT_WAIT_TIME = 120
+var NORMAL_HIT = 10
+var EXPLOSION_HIT = 100
+
+var vertical_movement = true
 var can_move = true
+
+var hit_player_wait_time = DEFAULT_HIT_WAIT_TIME
 
 var frames_count = 0
 var timeout_count = 0
-
 
 func _ready():
 	position = Vector2(rand_range(10, 990), rand_range(10, 590))
@@ -14,17 +21,26 @@ func _ready():
 func _process(_delta):
 	if can_move: 
 		move_sphere()
-
+	else:
+		damage_player()
+	
 func move_sphere():
 	if frames_count < 120:
-		if up:
+		if vertical_movement:
 			position.y += .5
 		else:
 			position.y -= .5
 		frames_count += 1
 	else: 
-		up = !up
+		vertical_movement = !vertical_movement
 		frames_count = 0
+		
+func damage_player():
+	if hit_player_wait_time == 0:
+		hit_player()
+		hit_player_wait_time = DEFAULT_HIT_WAIT_TIME
+	else:
+		hit_player_wait_time -= 1
 
 
 func _on_StaticBody2D_body_entered(body):
@@ -35,15 +51,25 @@ func _on_StaticBody2D_body_entered(body):
 
 func _on_StaticBody2D_body_exited(body):
 	if body.name == "Fish":
-		can_move = true
-		timeout_count = 0
-		$Sprite.frame = 0
-		$Timer.stop()
+		reset_bubble()
 
 func _on_Timer_timeout():
 	if timeout_count <= 2:
 		timeout_count += 1
 		$Sprite.frame += 1
-	# Degradates the sphere every second
-
+		
+	if $Sprite.frame == 2:
+		$Timer.wait_time += 2
+	
+	if $Sprite.frame == 3:
+		hit_player(EXPLOSION_HIT)
+		
+func reset_bubble():
+	can_move = true
+	timeout_count = 0
+	$Sprite.frame = 0
+	$Timer.stop()
+	
+func hit_player(damage = NORMAL_HIT):
+	target.decrease_life(damage)
 

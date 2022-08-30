@@ -6,9 +6,14 @@ var bubbles_count = 1
 
 func _on_Timer_timeout():
 	randomize()
-	add_child(bubbles.instance())
+	var bubbles_object = bubbles.instance()
+	add_child(bubbles_object)
+	bubbles_object.add_to_group("bubbles")
+	bubbles_object.target = $Fish 
+	
 	if bubbles_count < 5:
 		bubbles_count += 1
 	else:
 		$Timer.stop()
 		$Timer.autostart = false
+		
