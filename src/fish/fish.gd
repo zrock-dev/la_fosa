@@ -12,11 +12,16 @@ var is_down
 # joystick signal
 var is_joystick_in_use
 
+# life indicator
+var health_bar
+var hp_max = 100
+var actual_hp = hp_max
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimationTree.active = true
 	is_joystick_in_use = false
+	health_bar = get_tree().get_nodes_in_group("Hp")[0]
 
 func _physics_process(_delta):
 	$AnimationTree.set("parameters/orientation/current", 0)
@@ -25,6 +30,22 @@ func _physics_process(_delta):
 	position_player.x = get_input_position_player() * move_speed
 	
 	position_player = move_and_slide(position_player, Vector2.UP)
+	update_life()
+
+func _set_hp_max(new_hp):
+	hp_max = new_hp
+
+func increase_life(health):
+	actual_hp += health
+	update_life()
+
+func decrease_life(damage):
+	actual_hp -= damage
+	update_life()
+
+func update_life():
+	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
+	health_bar.value = actual_hp * health_bar.max_value / hp_max;
 
 func get_input_position_player() -> float:
 	var horizontal := 0.0
