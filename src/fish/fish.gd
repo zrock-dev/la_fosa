@@ -11,8 +11,9 @@ var is_down
 
 # joystick signal
 var is_joystick_in_use
-var healthNow = 50
-var healthTotal = 100
+var health_bar
+var hp_max = 100
+var actual_hp = hp_max
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -110,5 +111,5 @@ func in_range(number, mini, maxi) -> bool:
 	return number >= mini && number <= maxi
 
 func add_health(health):
-	healthNow = clamp(healthNow + health, 0, healthTotal)
-	print("Plus Health: " + str(healthNow))
+	actual_hp = clamp(actual_hp + health, 0, hp_max)
+	print("Plus Health: " + str(actual_hp))
