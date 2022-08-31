@@ -32,6 +32,7 @@ func _process(_delta):
 	else:
 		damage_player()
 	
+
 func move_sphere():
 	if frames_count < 120:
 		if vertical_movement:
@@ -43,6 +44,7 @@ func move_sphere():
 		vertical_movement = !vertical_movement
 		frames_count = 0
 		
+
 func damage_player():
 	if hit_player_wait_time == 0:
 		hit_player()
@@ -61,6 +63,7 @@ func _on_StaticBody2D_body_exited(body):
 	if body.name == "Fish":
 		reset_bubble()
 
+
 func _on_Timer_timeout():
 	if timeout_count <= 2:
 		timeout_count += 1
@@ -71,12 +74,14 @@ func _on_Timer_timeout():
 	
 	if $Sprite.frame == 3:
 		hit_player(EXPLOSION_HIT)
-		
+
+
 func reset_bubble():
 	can_move = true
 	timeout_count = 0
 	$Sprite.frame = 0
 	$Timer.stop()
+	
 	
 func hit_player(damage = NORMAL_HIT):
 	target.decrease_life(damage)
