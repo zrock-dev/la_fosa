@@ -1,11 +1,17 @@
 extends Area2D
 
+# Textures
+var clorox = preload("res://assets/fish/chemicals/clorox.png")
+var oil = preload("res://assets/fish/chemicals/oil.png")
+var garbage_liquid = preload("res://assets/fish/chemicals/garbage_liquid.png")
+var garbage_bubbles = preload("res://assets/fish/chemicals/garbage_bubbles.png")
+
 onready var original_pos = position
 onready var target
 
-var DEFAULT_HIT_WAIT_TIME = 120
-var NORMAL_HIT = 10
-var EXPLOSION_HIT = 100
+const DEFAULT_HIT_WAIT_TIME = 120
+const NORMAL_HIT = 10
+const EXPLOSION_HIT = 100
 
 var vertical_movement = true
 var can_move = true
@@ -16,6 +22,8 @@ var frames_count = 0
 var timeout_count = 0
 
 func _ready():
+	var textures = [clorox, oil, garbage_liquid, garbage_bubbles]
+	$Sprite.texture = textures[randi()%3]
 	position = Vector2(rand_range(10, 990), rand_range(10, 590))
 
 func _process(_delta):
@@ -72,4 +80,3 @@ func reset_bubble():
 	
 func hit_player(damage = NORMAL_HIT):
 	target.decrease_life(damage)
-
