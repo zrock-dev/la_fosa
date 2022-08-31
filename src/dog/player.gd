@@ -4,6 +4,11 @@ export var move_speed = 200.0
 export var FRAMES_CONSTRICTION = 20
 var position_player := Vector2.ZERO
 
+# life indicator
+var health_bar
+var hp_max = 100
+var actual_hp = hp_max
+
 # jump with gravity values
 export var jump_height : float
 export var jump_time_to_peak : float
@@ -32,6 +37,7 @@ func _ready():
 	$AnimationTree.active = true
 	is_joystick_in_use = false
 	can_jump = false
+	health_bar = get_tree().get_nodes_in_group("Hp")[0]
 
 func _physics_process(delta):
 	position_player.y += get_gravity() * delta
@@ -46,7 +52,22 @@ func _physics_process(delta):
 		$AnimationTree.set("parameters/state/current", 0)
 	else:
 		$AnimationTree.set("parameters/state/current", 1)
+	update_life()
 
+func _set_hp_max(new_hp):
+	hp_max = new_hp
+
+func increase_life(health):
+	actual_hp += health
+	update_life()
+
+func decrease_life(damage):
+	actual_hp -= damage
+	update_life()
+
+func update_life():
+	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
+	health_bar.value = actual_hp * health_bar.max_value / hp_max;
 
 func get_gravity() -> float:
 	return jump_gravity if position_player.y < 0.0 else fall_gravity
