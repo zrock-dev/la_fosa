@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/Items/PickUps.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30, 30 )
@@ -57,9 +56,5 @@ anims/ready = SubResource( 3 )
 
 [node name="Mesh" type="Node2D" parent="."]
 position = Vector2( 0, -5 )
-
-[node name="Icon" type="Sprite" parent="Mesh"]
-position = Vector2( 0, -2 )
-texture = ExtResource( 2 )
 
 [connection signal="body_entered" from="PickUps" to="." method="_on_PickUps_body_entered"]
