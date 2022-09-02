@@ -13,6 +13,7 @@ const DEFAULT_HIT_WAIT_TIME = 120
 const NORMAL_HIT = 10
 const EXPLOSION_HIT = 100
 
+var vertical_displacement = .5
 var vertical_movement = true
 var can_move = true
 
@@ -24,40 +25,43 @@ var timeout_count = 0
 func _ready():
 	var textures = [clorox, oil, garbage_liquid, garbage_bubbles]
 	$Sprite.texture = textures[randi()%3]
-	position = Vector2(rand_range(10, 990), rand_range(10, 590))
 
 func _process(_delta):
 	if can_move: 
 		move_sphere()
 	else:
 		damage_player()
-	
+
+
+func set_sphere_position(x_player_pos, y_player_pos):
+	position = Vector2(rand_range(x_player_pos + 30, x_player_pos + 400), rand_range(y_player_pos - 200, y_player_pos + 200))
+
 
 func move_sphere():
 	if frames_count < 120:
 		if vertical_movement:
-			position.y += .5
+			position.y += vertical_displacement
 		else:
-			position.y -= .5
+			position.y -= vertical_displacement
 		frames_count += 1
 	else: 
 		vertical_movement = !vertical_movement
 		frames_count = 0
-		
+
 
 func damage_player():
-	if hit_player_wait_time == 0:
+	if hit_player_wait_time == DEFAULT_HIT_WAIT_TIME:
 		hit_player()
-		hit_player_wait_time = DEFAULT_HIT_WAIT_TIME
+		hit_player_wait_time = 0
 	else:
-		hit_player_wait_time -= 1
+		hit_player_wait_time += 1
 
 
 func _on_StaticBody2D_body_entered(body):
 	if body.name == "Fish":
 		can_move = false
 		$Timer.start()
-		
+
 
 func _on_StaticBody2D_body_exited(body):
 	if body.name == "Fish":
@@ -78,10 +82,15 @@ func _on_Timer_timeout():
 
 func reset_bubble():
 	can_move = true
+	hit_player_wait_time = DEFAULT_HIT_WAIT_TIME
 	timeout_count = 0
 	$Sprite.frame = 0
 	$Timer.stop()
-	
-	
+
+
 func hit_player(damage = NORMAL_HIT):
 	target.decrease_life(damage)
+
+
+func set_max_vertical_displacement(distance):
+	vertical_displacement = distance
