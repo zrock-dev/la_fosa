@@ -22,6 +22,10 @@ func _ready():
 	$AnimationTree.active = true
 	is_joystick_in_use = false
 	health_bar = get_tree().get_nodes_in_group("Hp")[0]
+	$CollisionPolygon2D.scale = Vector2(1, 1)
+	$Sprite.flip_h = false
+	$Sprite.flip_v = false
+
 
 func _physics_process(_delta):
 	$AnimationTree.set("parameters/orientation/current", 0)
@@ -31,21 +35,28 @@ func _physics_process(_delta):
 	
 	position_player = move_and_slide(position_player, Vector2.UP)
 	update_life()
+	fix_collision_orientation()
+	reset_movement_flags()
+	reset_movement_flags_v()
 
 func _set_hp_max(new_hp):
 	hp_max = new_hp
+
 
 func increase_life(health):
 	actual_hp += health
 	update_life()
 
+
 func decrease_life(damage):
 	actual_hp -= damage
 	update_life()
 
+
 func update_life():
 	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
 	health_bar.value = actual_hp * health_bar.max_value / hp_max;
+
 
 func get_input_position_player() -> float:
 	var horizontal := 0.0
@@ -56,6 +67,7 @@ func get_input_position_player() -> float:
 	if is_right or is_left:
 		$Sprite.flip_v = false
 		$AnimationTree.set("parameters/orientation/current", 0)
+		
 		if is_right:
 			$Sprite.flip_h = true
 			horizontal += 1.0
@@ -63,8 +75,8 @@ func get_input_position_player() -> float:
 			$Sprite.flip_h = false
 			horizontal -= 1.0
 			
-	reset_movement_flags()
 	return horizontal
+	
 	
 func get_input_position_player_v() -> float:
 	var vertical := 0.0
@@ -72,7 +84,7 @@ func get_input_position_player_v() -> float:
 		is_up = Input.is_action_pressed("move_up")
 		is_down = Input.is_action_pressed("move_down")
 	
-	if is_up or is_down:
+	if is_up or is_down:		
 		$AnimationTree.set("parameters/orientation/current", 1)
 		if is_up:
 			$Sprite.flip_v = false
@@ -81,16 +93,46 @@ func get_input_position_player_v() -> float:
 			$Sprite.flip_v = true
 			vertical += 1.0
 			
-	reset_movement_flags_v()
 	return vertical
 	
+	
+func fix_collision_orientation():
+	var h_direction = 1
+	var v_direction = 1
+	
+	if $Sprite.flip_h:
+		h_direction = -1
+		
+	if is_down:
+		h_direction = -1
+		if $Sprite.flip_h:
+			v_direction = -1
+			
+	if is_up:
+		h_direction = 1
+		if $Sprite.flip_h:
+			v_direction = -1
+			
+	if is_right and (is_up or is_down):
+		h_direction = -1
+		v_direction = 1
+		
+	if is_left and (is_up or is_down):
+		h_direction = 1
+		v_direction = 1
+
+	$CollisionPolygon2D.scale = Vector2(h_direction, v_direction)
+	print($CollisionPolygon2D.scale)
+
 func reset_movement_flags():
 	is_right = false
 	is_left = false
 	
+	
 func reset_movement_flags_v():
 	is_up = false
 	is_down = false
+
 
 func _on_CanvasLayer_move_signal(move_vector):
 	is_joystick_in_use = true
@@ -108,6 +150,7 @@ func _on_CanvasLayer_move_signal(move_vector):
 		is_up = true
 	if in_range(x_pos, -max_limit, max_limit) && in_range(y_pos, range_area, max_limit): # down
 		is_down = true
+		
 		
 func in_range(number, mini, maxi) -> bool:
 	return number >= mini && number <= maxi
