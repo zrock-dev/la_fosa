@@ -55,8 +55,10 @@ func get_input_position_player() -> float:
 	
 	if is_right or is_left:
 		$Sprite.flip_v = false
+		$CollisionPolygon2D.scale = Vector2(1, 1)		
 		$AnimationTree.set("parameters/orientation/current", 0)
 		if is_right:
+			$CollisionPolygon2D.scale = Vector2(-1, 1)
 			$Sprite.flip_h = true
 			horizontal += 1.0
 		else:
@@ -73,11 +75,13 @@ func get_input_position_player_v() -> float:
 		is_down = Input.is_action_pressed("move_down")
 	
 	if is_up or is_down:
+		$CollisionPolygon2D.scale = Vector2(1, 1)
 		$AnimationTree.set("parameters/orientation/current", 1)
 		if is_up:
 			$Sprite.flip_v = false
 			vertical -= 1.0
 		else:
+			$CollisionPolygon2D.scale = Vector2(-1, 1)						
 			$Sprite.flip_v = true
 			vertical += 1.0
 			
