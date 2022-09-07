@@ -125,7 +125,6 @@ func fix_collision_orientation():
 		v_direction = 1
 
 	$CollisionPolygon2D.scale = Vector2(h_direction, v_direction)
-	print($CollisionPolygon2D.scale)
 
 func reset_movement_flags():
 	is_right = false
