@@ -64,7 +64,7 @@ func decrease_life(damage):
 	update_life()
 
 func update_life():
-	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
+	actual_hp = clamp(actual_hp, 0, hp_max)
 	health_bar.value = actual_hp * health_bar.max_value / hp_max;
 
 func get_gravity() -> float:
