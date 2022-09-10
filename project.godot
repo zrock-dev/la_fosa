@@ -22,6 +22,8 @@ singletons=[  ]
 
 window=false
 "scene root"=false
+image=false
+loader=false
 
 [input]
 

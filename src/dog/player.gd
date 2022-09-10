@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+signal dead(path)
 export var move_speed = 200.0
 export var FRAMES_CONSTRICTION = 20
 var position_player := Vector2.ZERO
@@ -65,7 +66,9 @@ func decrease_life(damage):
 
 func update_life():
 	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
-	health_bar.value = actual_hp * health_bar.max_value / hp_max;
+	health_bar.value = actual_hp * health_bar.max_value / hp_max
+	if health_bar.value <= 0 :
+		emit_signal("dead", "res://src/game/Game.tscn")
 
 func get_gravity() -> float:
 	return jump_gravity if position_player.y < 0.0 else fall_gravity

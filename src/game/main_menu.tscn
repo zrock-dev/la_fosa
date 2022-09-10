@@ -1,7 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/game/principal_menu.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[sub_resource type="StreamTexture" id=16]
+resource_local_to_scene = true
+flags = 4
+load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
 
 [node name="Node2D" type="Control"]
 script = ExtResource( 1 )
@@ -12,7 +16,7 @@ margin_top = 161.0
 margin_right = 447.0
 margin_bottom = 231.0
 text = "FISH"
-icon = ExtResource( 2 )
+icon = SubResource( 16 )
 
 [node name="Dog" type="Button" parent="."]
 margin_left = 371.0
@@ -20,7 +24,7 @@ margin_top = 272.0
 margin_right = 478.0
 margin_bottom = 342.0
 text = "DOG"
-icon = ExtResource( 2 )
+icon = SubResource( 16 )
 
 [connection signal="pressed" from="Fish" to="." method="_on_Fish_pressed"]
 [connection signal="pressed" from="Dog" to="." method="_on_Dog_pressed"]
