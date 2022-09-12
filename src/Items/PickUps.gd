@@ -1,6 +1,5 @@
 extends Node2D
 
-export var Health = 0
 export var amount = 10
 
 func _ready():
