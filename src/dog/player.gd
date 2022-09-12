@@ -14,6 +14,8 @@ var actual_hp = hp_max
 export var jump_height : float
 export var jump_time_to_peak : float
 export var jump_time_to_descent : float
+var cooldown = 10
+var player_cooldown = false 
 
 onready var jump_position_player : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
@@ -143,3 +145,27 @@ func check_fall_fast():
 
 func abs_of(value):
 	return value if value > 0 else -value
+
+
+
+func _on_Area2D_body_entered(body):
+	if(!player_cooldown):
+		if body.is_in_group("obstacles20"):
+			actual_hp -= 20
+			take_damage_obstacles()
+		if body.is_in_group("onstacles40"):
+			actual_hp -= 40
+			take_damage_obstacles()
+		if body.is_in_group("oneShotObs"):
+			actual_hp -= actual_hp
+			
+		
+func take_damage_obstacles():
+	player_cooldown = true
+	yield(get_tree().create_timer(cooldown),"timeout")
+	player_cooldown = false 
+	position.y -= 2
+		
+		
+		
+			
