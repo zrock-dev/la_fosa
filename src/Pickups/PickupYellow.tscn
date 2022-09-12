@@ -7,6 +7,6 @@
 object = 1
 
 [node name="IconYellow" type="Sprite" parent="Mesh" index="0"]
-position = Vector2( -0.25, -1.25 )
-scale = Vector2( 0.320313, 0.320313 )
+position = Vector2( -0.125009, -0.125009 )
+scale = Vector2( 0.628906, 0.628906 )
 texture = ExtResource( 2 )
