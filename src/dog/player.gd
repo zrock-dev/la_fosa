@@ -14,7 +14,7 @@ var actual_hp = hp_max
 export var jump_height : float
 export var jump_time_to_peak : float
 export var jump_time_to_descent : float
-var cooldown = 10
+var cooldown = 1
 var player_cooldown = false 
 
 onready var jump_position_player : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
@@ -159,12 +159,12 @@ func _on_Area2D_body_entered(body):
 		if body.is_in_group("oneShotObs"):
 			actual_hp -= actual_hp
 			
-		
 func take_damage_obstacles():
 	player_cooldown = true
 	yield(get_tree().create_timer(cooldown),"timeout")
 	player_cooldown = false 
-	position.y -= 2
+	position.y -= 3
+	position.x -= 10
 		
 		
 		
