@@ -17,9 +17,6 @@ func _input(event):
 func _physics_process(_delta):
 	if joystick_active:
 		emit_signal("move_signal", move_vector)
-		#print(move_vector)
-		
-		
 
 func calculate_move_vector(event_position):
 	return (event_position - get_texture_center()).normalized()
@@ -32,7 +29,7 @@ func limit_the_inner_circle(event_position):
 		$InnerCircle.position = texture_center + limit_vector
 	else:
 		$InnerCircle.position = event_position
-		joystick_active = true		
+		joystick_active = true
 
 func get_texture_center():
 	return $TouchScreenButton.position + Vector2(limit, limit)

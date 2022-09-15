@@ -8,6 +8,8 @@
 radius = 450.0
 
 [node name="CanvasLayer" type="CanvasLayer"]
+pause_mode = 1
+layer = 0
 script = ExtResource( 3 )
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]

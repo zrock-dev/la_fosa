@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal dead(path)
+signal player_deaded
 export var move_speed = 200.0
 var position_player := Vector2.ZERO
 
@@ -16,7 +16,7 @@ var is_joystick_in_use
 # life indicator
 var health_bar
 var hp_max = 100
-var actual_hp = 100
+var actual_hp = hp_max
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,6 +31,7 @@ func _physics_process(_delta):
 	position_player.x = get_input_position_player() * move_speed
 	
 	position_player = move_and_slide(position_player, Vector2.UP)
+	decrease_life(_delta * 10)
 	update_life()
 
 func _set_hp_max(new_hp):
@@ -47,8 +48,9 @@ func decrease_life(damage):
 func update_life():
 	actual_hp = clamp(actual_hp, 0, health_bar.max_value)
 	health_bar.value = actual_hp * health_bar.max_value / hp_max;
-	if health_bar.value <= 0 :
-		emit_signal("dead", "res://src/game/GameFish.tscn")
+	if health_bar.value <= 0 and get_tree().paused == false:
+		get_tree().paused = true
+		emit_signal("player_deaded")
 
 func get_input_position_player() -> float:
 	var horizontal := 0.0

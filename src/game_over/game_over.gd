@@ -17,10 +17,12 @@ func set_before_scene(path):
 	before_scene = path
 
 func _on_Try_Again_button_down():
+	get_tree().paused = false
 	get_tree().change_scene(before_scene)
 
 func _on_Credits_button_down():
 	pass # Replace with function body.
 
 func _on_Quit_button_down():
+	get_tree().paused = false
 	get_tree().change_scene("res://src/game/main_menu.tscn")
