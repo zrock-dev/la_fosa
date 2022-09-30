@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/Fonts/jmh_typewriter/JMH Typewriter-Bold.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://assets/Fonts/jmh_typewriter/JMH Typewriter-Thin.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/Fonts/will_grace/WILLG___.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/Fonts/my-type-of-font/mytype.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://src/game_over/Data.gd" type="Script" id=3]
 
 [sub_resource type="DynamicFont" id=13]
@@ -19,17 +19,17 @@ custom_constants/separation = 12
 script = ExtResource( 3 )
 
 [node name="LabelTitle" type="Label" parent="."]
-margin_right = 60.0
-margin_bottom = 26.0
+margin_right = 53.0
+margin_bottom = 25.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 13 )
 text = "Score:"
 
 [node name="Points" type="Label" parent="."]
-margin_left = 72.0
+margin_left = 65.0
 margin_top = 2.0
-margin_right = 98.0
-margin_bottom = 23.0
+margin_right = 90.0
+margin_bottom = 24.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 14 )
 text = "100"

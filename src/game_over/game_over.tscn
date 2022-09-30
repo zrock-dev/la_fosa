@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/game_over/Article.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/Fonts/hugolers/Hugolers Stylish.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/Fonts/will_grace/WILLG___.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://src/game_over/game_over.gd" type="Script" id=3]
-[ext_resource path="res://assets/Fonts/jmh_typewriter/JMH Typewriter-Bold.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://assets/Fonts/accidental-presidency/AccidentalPresidency.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://exmaple.png" type="Texture" id=5]
 [ext_resource path="res://src/game_over/level_details.gd" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=6]
@@ -17,6 +18,13 @@ shadow_color = Color( 0.0823529, 0.0666667, 0.0666667, 0.6 )
 
 [sub_resource type="Theme" id=7]
 
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.643137, 0.145098, 0.145098, 1 )
+border_width_left = 4
+border_width_right = 4
+border_color = Color( 0.145098, 0.145098, 0.403922, 1 )
+border_blend = true
+
 [sub_resource type="DynamicFont" id=9]
 size = 50
 use_mipmaps = true
@@ -29,14 +37,12 @@ outline_color = Color( 0.0235294, 0.0196078, 0.0196078, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StreamTexture" id=16]
-resource_local_to_scene = true
-flags = 4
-load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
-
 [sub_resource type="DynamicFont" id=15]
 size = 25
-font_data = ExtResource( 5 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_space = 1
+font_data = ExtResource( 4 )
 
 [node name="GameOver" type="CanvasLayer"]
 pause_mode = 2
@@ -71,59 +77,47 @@ theme = SubResource( 7 )
 custom_constants/separation = 10
 
 [node name="UnderlineTitle" type="Line2D" parent="MarginContainer/Panel/Container"]
-position = Vector2( 340.293, -16 )
+position = Vector2( 335.75, 0 )
 scale = Vector2( 8.21796, 1.13075 )
 points = PoolVector2Array( -15.8639, 96, 62.1538, 96 )
 default_color = Color( 0, 0, 0, 1 )
 
 [node name="Header" type="HBoxContainer" parent="MarginContainer/Panel/Container"]
-margin_right = 823.0
-margin_bottom = 102.0
-custom_constants/separation = 50
+margin_right = 839.0
+margin_bottom = 118.0
 alignment = 1
 
-[node name="Box2" type="Line2D" parent="MarginContainer/Panel/Container/Header"]
-position = Vector2( 2.00002, 10 )
-scale = Vector2( 9.0628, 0.863771 )
-points = PoolVector2Array( 1, 0, 0.977306, 86.8052 )
-width = 15.0
-default_color = Color( 0.47451, 0.0117647, 0.0784314, 1 )
-__meta__ = {
-"_edit_group_": true
-}
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/Container/Header"]
+margin_right = 225.0
+margin_bottom = 118.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 225, 100 )
+custom_styles/panel = SubResource( 16 )
 
-[node name="Box1" type="Line2D" parent="MarginContainer/Panel/Container/Header/Box2"]
-position = Vector2( 4.08263, -48.624 )
-scale = Vector2( 1.12548, 1.53318 )
-points = PoolVector2Array( 1, 0, 1, 81 )
-width = 15.0
-default_color = Color( 0.0784314, 0.109804, 0.27451, 1 )
+[node name="UnderlineTitle2" type="Line2D" parent="MarginContainer/Panel/Container/Header/Panel"]
+position = Vector2( 17, -1068.75 )
+scale = Vector2( 0.383079, 11.75 )
+points = PoolVector2Array( -15.8639, 96, 62.1538, 96 )
+default_color = Color( 0.145098, 0.145098, 0.403922, 1 )
 
-[node name="BoxTitle" type="Line2D" parent="MarginContainer/Panel/Container/Header/Box2/Box1"]
-position = Vector2( 6.56862, 15.9797 )
-scale = Vector2( 1.3987, 1.11565 )
-points = PoolVector2Array( 1, 0, 1, 81 )
-width = 15.0
-default_color = Color( 0.0666667, 0.117647, 0.368627, 1 )
-
-[node name="NewsName" type="Label" parent="MarginContainer/Panel/Container/Header"]
-margin_left = 51.0
-margin_right = 181.0
-margin_bottom = 102.0
+[node name="NewsName" type="Label" parent="MarginContainer/Panel/Container/Header/Panel"]
+margin_left = 50.0
+margin_right = 200.0
+margin_bottom = 118.0
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/line_spacing = 0
 custom_constants/shadow_offset_y = 2
 custom_fonts/font = SubResource( 9 )
-text = "news
-name"
+text = "News
+Name"
 uppercase = true
 
 [node name="GameOver" type="Label" parent="MarginContainer/Panel/Container/Header"]
-margin_left = 231.0
-margin_top = 1.0
-margin_right = 772.0
-margin_bottom = 101.0
+margin_left = 229.0
+margin_right = 839.0
+margin_bottom = 118.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -132,58 +126,62 @@ text = " Game over"
 uppercase = true
 
 [node name="Body" type="HBoxContainer" parent="MarginContainer/Panel/Container"]
-margin_top = 112.0
-margin_right = 823.0
-margin_bottom = 362.0
+margin_top = 128.0
+margin_right = 839.0
+margin_bottom = 353.0
+rect_min_size = Vector2( 500, 220 )
 
 [node name="Image" type="TextureRect" parent="MarginContainer/Panel/Container/Body"]
+margin_left = 10.0
 margin_right = 500.0
-margin_bottom = 250.0
+margin_bottom = 225.0
 grow_horizontal = 0
-rect_min_size = Vector2( 500, 250 )
-texture = SubResource( 16 )
-stretch_mode = 6
+rect_min_size = Vector2( 500, 225 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
 
 [node name="Article" parent="MarginContainer/Panel/Container/Body" instance=ExtResource( 1 )]
+margin_bottom = 225.0
 
 [node name="Foot" type="VBoxContainer" parent="MarginContainer/Panel/Container"]
-margin_top = 372.0
-margin_right = 823.0
-margin_bottom = 426.0
+margin_top = 363.0
+margin_right = 839.0
+margin_bottom = 414.0
 custom_constants/separation = 15
 alignment = 1
 
 [node name="Points" type="HBoxContainer" parent="MarginContainer/Panel/Container/Foot"]
-margin_right = 823.0
+margin_right = 839.0
 custom_constants/separation = 60
 alignment = 1
 script = ExtResource( 7 )
 
 [node name="Buttons" type="HBoxContainer" parent="MarginContainer/Panel/Container/Foot"]
 margin_top = 15.0
-margin_right = 823.0
-margin_bottom = 54.0
+margin_right = 839.0
+margin_bottom = 51.0
 custom_constants/separation = 40
 alignment = 1
 
 [node name="Credits" type="Button" parent="MarginContainer/Panel/Container/Foot/Buttons"]
-margin_left = 200.0
-margin_right = 318.0
-margin_bottom = 39.0
+margin_left = 278.0
+margin_right = 350.0
+margin_bottom = 36.0
 custom_fonts/font = SubResource( 15 )
 text = "CREDITS"
 
 [node name="Try Again" type="Button" parent="MarginContainer/Panel/Container/Foot/Buttons"]
-margin_left = 358.0
-margin_right = 509.0
-margin_bottom = 39.0
+margin_left = 390.0
+margin_right = 476.0
+margin_bottom = 36.0
 custom_fonts/font = SubResource( 15 )
 text = "TRY AGAIN"
 
 [node name="Quit" type="Button" parent="MarginContainer/Panel/Container/Foot/Buttons"]
-margin_left = 549.0
-margin_right = 622.0
-margin_bottom = 39.0
+margin_left = 516.0
+margin_right = 561.0
+margin_bottom = 36.0
 custom_fonts/font = SubResource( 15 )
 text = "QUIT"
 
